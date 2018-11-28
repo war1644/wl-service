@@ -183,11 +183,10 @@ class Events
    }
 
     /**
-     * 绑定跑步机与ksid
      * @param $data {array}  具体消息
      * @return null
      */
-    public static function bindKsid($data)
+    public static function bindId($data)
     {
 
 //        $cids = Gateway::getAllClientSessions();
@@ -251,23 +250,20 @@ class Events
      */
     public static function clearData($id)
     {
-        $ksid = MyRedis::get('tm:id:'.self::$ids[$id]['ksKey'].':ksid');
-        $r = MyRedis::del('tm:ksid:'.$ksid);
-        self::MyLog($r,"del tm:ksid$ksid");
-        MyRedis::del('tm:id:'.self::$ids[$id]['ksKey'].':ksid');
-        MyRedis::del('tm:id:'.self::$ids[$id]['ksKey'].':tmpKsid');
-        MyRedis::del('tm:id:'.self::$ids[$id]['ksKey'].':startTime');
-        MyRedis::del('tm:id:'.self::$ids[$id]['ksKey'].':unlockTime');
-        MyRedis::del('tm:id:'.self::$ids[$id]['ksKey'].':linkId');
+        $ksid = MyRedis::get('tm:id:'.self::$ids[$id]['gameKey'].':gameid');
+        $r = MyRedis::del('tm:gameid:'.$gameid);
+        self::MyLog($r,"del tm:gameid$gameid");
+        MyRedis::del('tm:id:'.self::$ids[$id]['gameKey'].':gameid');
+        MyRedis::del('tm:id:'.self::$ids[$id]['gameKey'].':tmpgameid');
+        MyRedis::del('tm:id:'.self::$ids[$id]['gameKey'].':linkId');
         Timer::delAll();
     }
 
     /**
-     * 结算
      * @param int $client_id 连接id
-     * @param int $ksid
+     * @param int $gameid
      */
-   private static function endSettle($id,$ksid){
+   private static function endSettle($id,$gameid){
        /*if ($users && in_array($info["name"],$users)) {
            $userInfo = MyRedis::get( $info["name"] );
            MyRedis::lRem($userInfo['content']['stageId'],$info["name"]);
